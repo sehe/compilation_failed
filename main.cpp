@@ -2,24 +2,25 @@
 #include <vector>
 
 //////////
-static std::string c_src_content = R"(
-    int main(int argc){
-        static const int * const const volatile *****a = 3.333;
-        return 0;
-    }
-)";
-
 // #define BOOST_SPIRIT_X3_DEBUG 1
-#include "rule_def.hpp"
+#include "parser_functions.hpp"
+
+#if 0
+    static void test_program() {
+        if (parse::tester::test_translation_unit(R"(
+                int main(int argc){
+                    static const int * const const volatile *****a = 3.333;
+                    return 0;
+                }
+            )")) {
+            std::cout << "parse success!" << std::endl;
+        } else {
+            std::cerr << "parse fail!" << std::endl;
+        }
+    }
+#endif
+
 
 int main() {
-    ast::translation_unit out;
-    parse::iterator_type  f = c_src_content.begin(), l = c_src_content.end();
-
-    bool r = parse::x3::phrase_parse(f, l, parse::main_rule() >> parse::x3::eoi, parse::x3::space, out);
-    if (r) {
-        std::cout << "parse success!" << std::endl;
-    } else {
-        std::cerr << "parse fail!" << std::endl;
-    }
+    // test_program();
 }
