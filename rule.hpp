@@ -92,30 +92,77 @@ namespace parse {
 #endif
 
     static inline void add_keywords() {
-        static bool once = false;
-        if (once)
-            return;
-        once = true;
-
-        unary_operator.add("&", 1)("*", 2)("+", 3)("-", 4)("~", 5)("!", 6);
-        type_qualifier.add("const", 1)("volatile", 2);
-        struct_or_union.add("struct", 1)("union", 2);
-        storage_class_specifier.add("auto", 1)("register", 2)("static", 3)("extern", 4)("typedef", 5);
-        type_specifier_pre.add("void", 1)("char", 2)("short", 3)("int", 4)("long", 5)("float", 6)(
-            "double", 7)("signed", 8)("unsigned", 9);
-        assignment_operator.add("*=", 1)("/=", 2)("%=", 3)("+=", 4)("-=", 5)("<<=", 6)(">>=", 7)("&=", 8)(
-            "^=", 9)("|=", 10)("=", 11);
-        multiplicative_oper.add("*", 1)("/", 2);
-        additive_oper.add("+", 1)("-", 2);
-        shift_oper.add("<<", 1)(">>", 2);
-        relational_oper.add(">", 1)("<", 2)(">=", 1)("<=", 2);
-        equality_expression_oper.add("==", 1)("!=", 2);
-        unary_expression_oper.add("sizeof", 1)("--", 2)("++", 3);
-        jump_oper.add("return", 1)("break", 2)("continue", 3)("goto", 4);
+        unary_operator.add           //
+            ("&", 1)                 //
+            ("*", 2)                 //
+            ("+", 3)                 //
+            ("-", 4)                 //
+            ("~", 5)                 //
+            ("!", 6);                //
+        type_qualifier.add           //
+            ("const", 1)             //
+            ("volatile", 2);         //
+        struct_or_union.add          //
+            ("struct", 1)            //
+            ("union", 2);            //
+        storage_class_specifier.add  //
+            ("auto", 1)              //
+            ("register", 2)          //
+            ("static", 3)            //
+            ("extern", 4)            //
+            ("typedef", 5);          //
+        type_specifier_pre.add       //
+            ("void", 1)              //
+            ("char", 2)              //
+            ("short", 3)             //
+            ("int", 4)               //
+            ("long", 5)              //
+            ("float", 6)             //
+            ("double", 7)            //
+            ("signed", 8)            //
+            ("unsigned", 9);         //
+        assignment_operator.add      //
+            ("*=", 1)                //
+            ("/=", 2)                //
+            ("%=", 3)                //
+            ("+=", 4)                //
+            ("-=", 5)                //
+            ("<<=", 6)               //
+            (">>=", 7)               //
+            ("&=", 8)                //
+            ("^=", 9)                //
+            ("|=", 10)               //
+            ("=", 11);               //
+        multiplicative_oper.add      //
+            ("*", 1)                 //
+            ("/", 2);                //
+        additive_oper.add            //
+            ("+", 1)                 //
+            ("-", 2);                //
+        shift_oper.add               //
+            ("<<", 1)                //
+            (">>", 2);               //
+        relational_oper.add          //
+            (">", 1)                 //
+            ("<", 2)                 //
+            (">=", 1)                //
+            ("<=", 2);               //
+        equality_expression_oper.add //
+            ("==", 1)                //
+            ("!=", 2);               //
+        unary_expression_oper.add    //
+            ("sizeof", 1)            //
+            ("--", 2)                //
+            ("++", 3);               //
+        jump_oper.add                //
+            ("return", 1)            //
+            ("break", 2)             //
+            ("continue", 3)          //
+            ("goto", 4);             //
     }
 
     static inline auto const main_rule() {
-        add_keywords();
+        static bool const init = [] { add_keywords(); return true; }();
         return translation_unit;
     }
 } // namespace parse
