@@ -79,6 +79,16 @@ namespace parse {
          "switch",  "case",     "do",    "while",    "for",    "continue", "break",  "return",
          "default", "typedef",  "auto",  "register", "extern", "static",   "sizeof"});
 
+    namespace {
+        template <typename T> struct as_type {
+            template <typename Expr> auto operator[](Expr&& expr) const {
+                return x3::rule<struct _, T>{"as"} = x3::as_parser(std::forward<Expr>(expr));
+            }
+        };
+
+        template <typename T> static as_type<T> const as = {};
+    } // namespace
+
     struct literal_string_class : x3_variant_handle {};
     auto const literal_string = x3::rule<literal_string_class, std::string>{"literal_string"};
     auto const literal_string_def =

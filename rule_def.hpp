@@ -165,7 +165,9 @@ namespace parse {
     auto const typedef_name_def = identifier;
     auto const declaration_def  = +declaration_specifier >> *init_declarator >> ';';
 
-    auto const init_declarator_def = ((declarator >> '=' >> initializer) | declarator);
+    auto const init_declarator_def                                           //
+        = as<ast::test::init_declarator_1>[declarator >> '=' >> initializer] //
+        | declarator;
     auto const initializer_def                                           //
         = ('{' >> ((initializer_list >> ',') | initializer_list) >> '}') //
         | assignment_expression;
