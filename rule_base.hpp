@@ -4,28 +4,27 @@
 //
 //  Created by fudao on 2023/10/11.
 //
+#ifndef rule_base_hpp
+#define rule_base_hpp
 
-
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <map>
-#include <vector>
-#include <list>
-#include <numeric>
 #include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <string>
+#include <vector>
 
-#define BOOST_SPIRIT_DEBUG 1
-//#define BOOST_SPIRIT_X3_DEBUG 1
-
-#include <boost/spirit/home/x3.hpp>
-#include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
-#include <boost/spirit/home/x3/support/ast/variant.hpp>
-#include <boost/spirit/home/x3/support/utility/error_reporting.hpp>
-#include <boost/spirit/home/x3/support/utility/annotate_on_success.hpp>
-#include <boost/fusion/include/adapt_struct.hpp>
-#include <boost/fusion/include/std_pair.hpp>
+//#include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
+//#include <boost/spirit/home/x3/support/ast/variant.hpp>
+//#include <boost/spirit/home/x3/support/utility/error_reporting.hpp>
+//#include <boost/spirit/home/x3/support/utility/annotate_on_success.hpp>
+#include <boost/fusion/include/adapted.hpp>
 #include <boost/fusion/include/io.hpp>
+#include <boost/spirit/home/x3.hpp>
+
+#include "ast_base.hpp"
 
 namespace parse {
 
@@ -34,23 +33,23 @@ namespace x3 = boost::spirit::x3;
 struct base_variant_printer {
     typedef void result_type;
     result_type operator()(ast::nil) const { std::cout << "nil" << std::endl;}
-    result_type operator()(const char& c) const { std::cout << "char:" << c << std::endl;}
-    result_type operator()(const int& n) const { std::cout << "int:" << n << std::endl;}
-    result_type operator()(const long& n) const { std::cout << "long:" << n << std::endl;}
-    result_type operator()(const float& n) const { std::cout << "float:" << n << std::endl;}
-    result_type operator()(const double& n) const { std::cout << "double:" << n << std::endl;}
-    result_type operator()(const std::string& n) const { std::cout << "string:" << n << std::endl;}
-    
-    template<typename T>
-    result_type operator()(const std::vector<T>& n) const {
+    result_type  operator()(char const& c) const { std::cout << "char:" << c << std::endl; }
+    result_type  operator()(int const& n) const { std::cout << "int:" << n << std::endl; }
+    result_type  operator()(long const& n) const { std::cout << "long:" << n << std::endl; }
+    result_type  operator()(float const& n) const { std::cout << "float:" << n << std::endl; }
+    result_type  operator()(double const& n) const { std::cout << "double:" << n << std::endl; }
+    result_type  operator()(std::string const& n) const { std::cout << "string:" << n << std::endl; }
+
+    template <typename T> result_type operator()(std::vector<T> const& n) const {
         std::cout << "vector:" << std::endl;
         for(auto const& item : n){
             std::cout <<  ' ';
             (*this)(item);
         }
     }
-    template<typename T>
-    result_type operator()(const T& instance) const { boost::apply_visitor(*this, instance);}
+    template <typename T> result_type operator()(T const& instance) const {
+        boost::apply_visitor(*this, instance);
+    }
 };
 static base_variant_printer base_var_printer;
 
@@ -101,3 +100,4 @@ BOOST_SPIRIT_DEFINE(identifier);
 
 }
 
+#endif // rule_base_hpp
