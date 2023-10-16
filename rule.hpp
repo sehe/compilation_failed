@@ -139,7 +139,7 @@ auto const main_rule(){
 #define BNF_DEC_HANDLE(x,handle) \
 namespace ast{using x = x3::unused_type;} \
 namespace parse{struct x##_class : handle{};} \
-namespace parse{auto const x = x3::rule<x##_class,ast::x>{#x};}
+namespace parse{auto const x = x3::rule<x##_class,ast::test::x>{#x};}
 
 
 
